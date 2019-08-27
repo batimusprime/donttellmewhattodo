@@ -1,4 +1,12 @@
-
+body {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
 #close, #burger, .material-icons{
 
   cursor: pointer;
@@ -36,3 +44,38 @@ justify-content: space-around;
 .icon{
 
 padding: 1rem 0 0 1rem;
+}
+
+
+.header{
+
+  text-align: center;
+
+}
+
+#toast-container{
+  margin-top: 2rem;
+
+display: flex!important;
+justify-content: center!important;
+align-content: center!important;
+align-items: center;
+width: 100%; 
+flex-grow: initial;
+flex-direction: column-reverse;
+}
+
+.customToast{
+
+  border: 1px solid gray;
+
+  width: 30%!important;
+ 
+
+}
+
+.completed{
+
+  opacity: .5;
+
+}

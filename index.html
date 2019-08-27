@@ -28,60 +28,94 @@
         ////BEGIN SLIDE OUT NAV SECTION////
 
     --->
-
-<ul id="slide-out" class="sidenav">
-    <li>
-    
-        <div class="user-view">
-    
-            <i class="material-icons" id="close">clear</i>
-    
-        </div>
-    
-    </li>
-
-    <li><a href="#!">Login Using Google (Coming Soon)</a></li>
-
-    <li><div class="divider"></div></li>
-
-    <li><a class="waves-effect" id="addTask" href="#!">Add Task</a></li>
-
-    <li><a class="waves-effect" href="#!">Get Random Task</a></li>
-
-    <li><div class="divider"></div></li>
-
-
-    <li><a class="waves-effect" href="#!">DB Status: <span id="emoji"></span></a></li>
-
-</ul>
-
 <div class="container">
-
+    <div class="row">
     <!-- MENU BUTTON-->
-    <div id="burger">
+    <!-- <div id="burger">
     
         <i class="material-icons medium">view_headline</i>
         <span id="btn-label">Menu</span>
     
+    </div> -->
     </div>
+    <div class="row">
 
     <!-- BEGIN CARDS-->
     <div class="col s12">
 
         <h2 class="header">Don't Tell Me What To Do</h2>
+        <hr>
+        <div id="target">
+            
+            <!---
 
-        <div id="target"></div>
+                CARDS GO HERE
+                
+            --->
 
-        
-        
+        </div>
+    
+    </div>       
 
 <!-- Floating + Button-->
-<div class="fixed-action-btn" id="floatPlus">
-<a class="btn-floating btn-large red">
-<i class="large material-icons">add</i>
-</a>
+<!-- <div class="fixed-action-btn toolbar" id="floatPlus">
+    
+    <a class="btn-floating btn-large red toolbar">
+    
+        <i class="large material-icons">add</i>
+    
+    </a>
+
+</div> -->
 
 </div>
+
+<div class="row">
+<div class="col s12">
+        <div class="fixed-action-btn toolbar direction-top" style="transition: transform 0.2s ease 0s; transform: translate3d(0px, 0px, 0px);">
+                <a class="btn-floating btn-large red" style="transition: transform 0.2s cubic-bezier(0.55, 0.055, 0.675, 0.19) 0s; transform: translate3d(0px, 0px, 0px);">
+                  <i class="large material-icons">view_headline</i>
+                </a>
+                <ul>
+                     <!-- Modal Trigger -->
+                  <li class="waves-effect waves-light modal-trigger"><a class="modal-trigger" href="#modal1"><i class="material-icons">add</i></a></li>
+                  <li class="waves-effect waves-light"><a href="#!" id="randTask" style=""><i class="material-icons">shuffle</i></a></li>
+                  <li class="waves-effect waves-light"><a href="#!" style=""><i class="material-icons">star</i></a></li>
+                  <li class="waves-effect waves-light"><a href="#!" style=""><i class="material-icons">settings</i></a></li>
+                </ul>
+              </div>
+                    
+
+</div>
+
+</div>
+
+ <!-- Modal Structure -->
+ <div id="modal1" class="modal">
+   <div class="modal-content"><i class="material-icons small modal-close" id="modalClose">close</i>
+     <h4>Create New Task</h4>
+     <div class="row">
+            <div class="input-field col s12">
+              <input id="name" type="text" class="validate" placeholder="Name of Task">
+              <label for="name">Name</label>
+            </div>
+            <div class="input-field col s12">
+              <input id="desc" type="text" class="validate" placeholder="Description of Task">
+              <label for="desc">Description</label>
+            </div>
+          </div>
+          
+   </div>
+   <div class="modal-footer">
+
+        <a class="waves-effect waves-light btn modal-close" id="subTask">Submit</a>
+
+   </div>
+ </div>
+        
+
 </div><!-- END CONTAINER-->
+
 </body>
+
 </html> 
