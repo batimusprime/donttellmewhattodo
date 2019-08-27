@@ -8,11 +8,8 @@ $(document).ready(function(){
     */
     // this will be provided by oAuth later
     let userId = 'batman'
-    let taskCount = 0;
-    let status = 'down';
-    let counter;
-    let iter = 0;
     let imgCounter;
+ 
     
     // Configure firebase
     const firebaseConfig = {
@@ -38,65 +35,106 @@ $(document).ready(function(){
 
     */
 
-   M.AutoInit();
+    //Initialize Materialize JS
+    M.AutoInit();
  
-
-   $('.fixed-action-btn').floatingActionButton({
+    //turn the FAB into a toolbar
+    $('.fixed-action-btn').floatingActionButton({
 
         toolbarEnabled: true
     
     });
   
     /* 
-    
+
+        ////POPULATE////
         ////WRITE TASKS TO PAGE////
 
     */
 
     function populate(){
 
-        //clear div first
-        $('#target').html(' ')
-         
-        //session counter so that tasks stay in order while displayed
-        counter = 1;
-
         //get all data from fb one time
         ref.once("value").then(function(data) { 
                 
-            dispTaskNum = data.numChildren();            
+            parseData(data, 'all');
 
-            //built in snapshot function
-            data.forEach((child) =>{
+        })//end DB Call
 
-                //generate a random number                
-                imgCounter = getRandom(4);
 
-                //write the HTML
-                $('#target').append('<div class="card horizontal cardtainer" id="cardtainer'+ child.key +'"></div>')
- 
-                $('#cardtainer' + child.key).append('<div class="card-image"><img src="icon' + imgCounter + '.png" class="icon" id="'+ counter +'"></div>');
- 
-                $('#cardtainer' + child.key).append('<div class="card-stacked"><div class="card-content" id="content' + child.key + '"><span>'+ counter +'.0</span> : <span>'+ child.val().name+'</span><hr><p>' + child.val().desc + '</p></div>');
- 
-                $('#content' + child.key).append('<div class="card-action act"><i class="material-icons small up" id="complete' + child.key +'">done</i><i class="material-icons small down" id="delete' + child.key +'">clear</i><i class="material-icons small star" id="star' + child.key +'">star_border</i></div></div></div>');      
-        
-                //iterate the session counter
-                counter++;
-                
-                //display a good status in the popout menu status section
-
-                $('#emoji').html('&#x1F44D;');
-
-            })
-
-            })//end DB Call
-        }//end populate func
+    }//end populate func
     
- 
+
+    /* 
+    
+        ////PARSE DATA////
+    
+    */
+    function parseData(data, option){
+
+        //session counter so that tasks are always numbered 1-10 on the page
+        counter = 1;
+
+        //clear div first
+        $('#target').html(' ')
+
+        // //number of tasks in list
+        dispTaskNum = data.numChildren();   
+             
+        
+        //built in snapshot function iterate over children
+        data.forEach((child) =>{
+        
+        //generate a random number to display random images (8 available)                
+        imgCounter = getRandom(8);
+        
+        imgName = child.val().name;
+        imgDesc = child.val().desc;
+        
+        childKey = child.key  
+        //check DB for star status
+        if (child.val().star == 0){
+           
+            //set star to filled in version
+            starVar = 'star'
+            // if (option == 'stars'){}   
+            
+            }else{
+        
+                //outlined version
+                starVar = 'star_border';
+         
+            }
+            writeHTML(childKey, imgName, imgDesc, imgCounter, counter, starVar);
+            
+            //Then increase the count
+            counter++; 
+
+        });
+      
+    }
+    /* 
+    
+        ////WRITE HTML TO PAGE////
+    
+    */
+
+    function writeHTML(cKey,imgN, imgD, imgC, count, starVar){
+        //write the HTML
+        $('#target').append('<div class="card horizontal cardtainer" id="cardtainer'+ cKey +'"></div>')
+
+        $('#cardtainer' + cKey).append('<div class="card-image"><img src="icon' + imgCounter + '.png" class="icon" id="'+ imgC +'"></div>');
+
+        $('#cardtainer' + cKey).append('<div class="card-stacked"><div class="card-content" id="content' + cKey + '"><span>'+ count +'.0</span> : <span>'+ imgN + '</span><hr><p>' + imgD + '</p></div>');
+
+        $('#content' + cKey).append('<div class="card-action act"><i class="material-icons small up" id="complete' + cKey +'">done</i><i class="material-icons small down" id="delete' + cKey +'">clear</i><i class="material-icons small star" id="star' + cKey +'">' + starVar + '</i></div></div></div>');      
+
+    }
+
+
    /* 
 
-    ////PUSH TASKS TO DB////
+        ////PUSH TASKS TO DB////
 
    */
 
@@ -107,7 +145,7 @@ $(document).ready(function(){
             
             name: tn,
             desc: td,
-            star: 'n'
+            star: 1
         
         });
 
@@ -125,35 +163,63 @@ $(document).ready(function(){
    */
 
     function fav(x){
-        //check if icon is open
-        if( $('#star' + x).html() == 'star_border'){
 
-            //replace icon with filled in
-            $('#star' + x).html('star');
+        //check if task is completed first
 
-            //update the db entry to indicate starred
-            ref.child(x).update({
-
-                star: 'y'                   
+        if($('#cardtainer'+x).hasClass('completed')){
             
-            });
+            //display toast
+            M.toast({html: 'Task Already completed!', classes: 'customToast', displayLength: '1500'})
         
-            //notify user
-            M.toast({html: 'Favorite Added', classes: 'customToast', displayLength: '1500'})
-        
-        //check if icon is closed...
-        }else if($('#star' + x).html() == 'star'){
+        }else{
+            //check if icon is open
+            if( $('#star' + x).html() == 'star_border'){
 
-            $('#star' + x).html('star_border');
-            ref.child(x).update({
+                //replace icon with filled in
+                $('#star' + x).html('star');
 
-                star: 'n'
+                //update the db entry to indicate starred
+                ref.child(x).update({
+
+                    star: 0                   
+                
+                });
             
-            });
+                //notify user
+                M.toast({html: 'Favorite Added', classes: 'customToast', displayLength: '1500'})
             
-            M.toast({html: 'Favorite Removed', classes: 'customToast', displayLength: '1500'})
+            //check if icon is closed...
+            }else if($('#star' + x).html() == 'star'){
+
+                $('#star' + x).html('star_border');
+                ref.child(x).update({
+
+                    star: 1
+                
+                });
+                
+                M.toast({html: 'Favorite Removed', classes: 'customToast', displayLength: '1500'})
+
+            }
 
         }
+    }
+
+    /*
+    
+        ////GET A RANDOM CARD////
+        
+    */
+
+    function randCard(x){
+        
+        //get a random number with number of possible tasks as ceiling
+        newRand = getRandom(x);
+        
+        //get all cardtainers in target parent, iterate through them by random generated number newRand
+        let allCards = document.getElementById('target').getElementsByClassName('cardtainer')[newRand];
+        //return FB UID sliced out of selected ID
+        return allCards.id.slice(10);
 
     }
    
@@ -202,7 +268,6 @@ $(document).ready(function(){
     $('#target').on('click','.star', function(){
 
         fav(this.id.slice(4));
-        console.log(this.id.slice(4))
 
     })
 
@@ -210,12 +275,25 @@ $(document).ready(function(){
     $('#target').on('click','.up', function(){
       
         if($('#cardtainer' + this.id.slice(8)).hasClass('completed')){
+            
             M.toast({html: 'Task Already Completed', classes: 'customToast', displayLength: '1500'})
-    }else{
-        //add CSS class to clicked card container
-        $('#cardtainer' + this.id.slice(8)).addClass('completed');
-        M.toast({html: 'Completed', classes: 'customToast', displayLength: '1500'})
-        $('#' + this.id).html('refresh')
+        
+        }else{
+        
+            //add CSS class to clicked card container
+            $('#cardtainer' + this.id.slice(8)).addClass('completed');
+            $('#delete' + this.id.slice(8)).addClass('selectMe');
+            
+            M.toast({html: 'Completed', classes: 'customToast', displayLength: '1500'})
+
+        //mark in database
+        ref.child(this.id.slice(8)).update({
+
+            complete: 'y'
+        
+        });
+
+        $('#complete' + this.id.slice(8)).html('tag_faces');
         }
     })
     
@@ -225,53 +303,73 @@ $(document).ready(function(){
 
         taskName = $('#name').val();
         taskDesc = $('#desc').val();
+        //UNCOMMENT FOR DEV - test write with params
+        // writeDB('Default Task Name', 'Task Descriptions Can Get Very Long So They Should Hopefully Wrap')
         if(!taskName || !taskDesc || taskName == ' ' || taskDesc == ' ' || taskDesc == undefined || taskName == undefined){
         
             M.toast({html: 'Error: No Data Submitted', classes: 'customToast', displayLength: '1500'})
 
 
         }else{
-            //test write with params
-            // writeDB('Default Task Name', 'Task Descriptions Can Get Very Long So They Should Hopefully Wrap')
+
             
-            //REMOVE FOR PRODUCTION
+            //UNCOMMENT FOR PRODUCTION
             writeDB(taskName, taskDesc);
 
 
         }
     })
 
-
+    //favorite a random task, change to filled in star icon
     $('#randTask').click(function(){
-
-        //number of tasks displayed
-        console.log(dispTaskNum);
     
         //check if no tasks are displayed
         if (dispTaskNum == 0){
     
             M.toast({html: 'Error: No Posts Displayed', classes: 'customToast', displayLength: '1500'})
 
+        }else{
+
+            //returns FB UID
+            let randId = randCard(dispTaskNum);     
+                
+            if ($('#star' + randId).html() == 'star_border'){
+                
+                //call only first part of favorite on randomly selected card
+                //this is done so that getting a random card doesn't 'unstar' a task that it finds
+                $('#star' + randId).html('star');
+
+                //update the DB
+                ref.child(randId).update({
+
+                    star: 0
+
+                });
+
+            }else{
+                //this has to re-run the operation
+                console.log('already starred');
+
+            }
         }
-        //get a random number with number of possible tasks as ceiling
-        newRand = getRandom(dispTaskNum)
-        console.log(newRand + ' should be less than ^^ ');
-
-        let q = document.getElementById('target').getElementsByClassName('cardtainer')[newRand];
-
-        //call only first part of favorite on randomly selected card
-        $('#star' + q.id.slice(10)).html('star');
-        ref.child(q.id.slice(10)).update({
-
-            star: 'y'
-
-        });
-
-
-
+    
     })
+
+    //display only starred posts
+    $('#dispStar').click(function(){
+
+        console.log('only stars');
+        //repopulate the list with favorites at the top
+        var starsRef = firebase.database().ref('batman/').orderByChild('star');
+        starsRef.once('value').then(function(snap){
+
+            parseData(snap, 'stars');
+
+        })
+
+    });
     /*
-        ////RANDOM FUNCS////
+        ////RANDOMIZATION FUNCS////
         
     */
 
