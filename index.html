@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Don't Tell Me What To Do</title>
+<!-- Custom CSS-->
+<link rel="stylesheet" href="style.css">
+<!-- Compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<!--Google Icon Font-->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">   
+<!-- Firebase-->    
+<script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-database.js"></script>
+<!-- Custom JS-->
+<script src="script.js"></script>
+
+</head>
+<body>
+
+    <!-- 
+
+        ////BEGIN SLIDE OUT NAV SECTION////
+
+    --->
+
+<ul id="slide-out" class="sidenav">
+    <li>
+    
+        <div class="user-view">
+    
+            <i class="material-icons" id="close">clear</i>
+    
+        </div>
+    
+    </li>
+
+    <li><a href="#!">Login Using Google (Coming Soon)</a></li>
+
+    <li><div class="divider"></div></li>
+
+    <li><a class="waves-effect" id="addTask" href="#!">Add Task</a></li>
+
+    <li><a class="waves-effect" href="#!">Get Random Task</a></li>
+
+    <li><div class="divider"></div></li>
+
+
+    <li><a class="waves-effect" href="#!">DB Status: <span id="emoji"></span></a></li>
+
+</ul>
+
+<div class="container">
+
+    <!-- MENU BUTTON-->
+    <div id="burger">
+    
+        <i class="material-icons medium">view_headline</i>
+        <span id="btn-label">Menu</span>
+    
+    </div>
+
+    <!-- BEGIN CARDS-->
+    <div class="col s12">
+
+        <h2 class="header">Don't Tell Me What To Do</h2>
+
+        <div id="target"></div>
+
+        
+        
+
+<!-- Floating + Button-->
+<div class="fixed-action-btn">
+<a class="btn-floating btn-large red">
+<i class="large material-icons">add</i>
+</a>
+
+</div>
+</div><!-- END CONTAINER-->
+</body>
+</html> 

@@ -1,0 +1,38 @@
+
+#close, #burger, .material-icons{
+
+  cursor: pointer;
+
+}
+  
+#burger{
+
+display: flex;
+align-content: center;
+justify-content: baseline;
+align-self: center;
+font-size: 2rem;
+margin-top: 1rem;
+
+}
+
+#btn-label{
+
+padding-top: .4rem;
+
+}
+
+#emoji{
+
+font-size: 1.5rem;
+}
+
+.act{
+
+display: flex;
+justify-content: space-around;
+}
+
+.icon{
+
+padding: 1rem 0 0 1rem;
