@@ -115,7 +115,7 @@ $(document).ready(function(){
         populate();
         
         //display status
-        M.toast({html: 'Task Written', classes: 'customToast', displayLength: '1500'})
+        M.toast({html: 'Task Written: ' + tn, classes: 'customToast', displayLength: '1500'})
     
     }
 
@@ -208,13 +208,18 @@ $(document).ready(function(){
 
     //Click on check will set card as completed
     $('#target').on('click','.up', function(){
-
+      
+        if($('#cardtainer' + this.id.slice(8)).hasClass('completed')){
+            M.toast({html: 'Task Already Completed', classes: 'customToast', displayLength: '1500'})
+    }else{
         //add CSS class to clicked card container
         $('#cardtainer' + this.id.slice(8)).addClass('completed');
         M.toast({html: 'Completed', classes: 'customToast', displayLength: '1500'})
-
+        $('#' + this.id).html('refresh')
+        }
     })
     
+
     //Submit a task
     $('#subTask').click(function(){
 
@@ -227,13 +232,12 @@ $(document).ready(function(){
 
         }else{
             //test write with params
-            writeDB('Default Task Name', 'Task Descriptions Can Get Very Long So They Should Hopefully Wrap')
+            // writeDB('Default Task Name', 'Task Descriptions Can Get Very Long So They Should Hopefully Wrap')
             
             //REMOVE FOR PRODUCTION
-            // writeDB(taskName, taskDesc);
-            console.log('submitted!')
-            console.log(taskName + " : " + taskDesc);
-        
+            writeDB(taskName, taskDesc);
+
+
         }
     })
 

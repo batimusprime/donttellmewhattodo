@@ -59,17 +59,18 @@ padding: 1rem 0 0 1rem;
 display: flex!important;
 justify-content: center!important;
 align-content: center!important;
-align-items: center;
-width: 100%; 
-flex-grow: initial;
-flex-direction: column-reverse;
+align-items: center!important;
+width: 100%!important; 
+flex-grow: initial!important;
+flex-direction: column-reverse!important;
 }
 
 .customToast{
 
   border: 1px solid gray;
 
-  width: 30%!important;
+  width: 40%!important;
+  text-align: center;
  
 
 }
@@ -77,5 +78,6 @@ flex-direction: column-reverse;
 .completed{
 
   opacity: .5;
+  font-style: italic;
 
 }
