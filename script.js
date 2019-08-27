@@ -88,27 +88,53 @@ $(document).ready(function(){
         //generate a random number to display random images (8 available)                
         imgCounter = getRandom(8);
         
+        //get values as variables for later use
         imgName = child.val().name;
         imgDesc = child.val().desc;
-        
         childKey = child.key  
-        //check DB for star status
-        if (child.val().star == 0){
-           
-            //set star to filled in version
+
+        // if(option == 'star'){
+        //     hidVar = ''
+        // }else if(option == 'all'){
+
+        //     hidVar = '';
+
+        // }
+        // else{
+
+        //     hidVar = '';
+        //     console.log('error')
+
+        // }
+        //check DB for star status           
+        if (child.val().star == 0 && option == 'stars'){
+            
+            //set stars to show
             starVar = 'star'
-            // if (option == 'stars'){}   
+            hidVar = ''
             
-            }else{
+        //check option
+        }else if(child.val().star == 1 && option == 'all'){
+    
+            //set stars to hidden
+            hidVar = ''
+            starVar = 'star_border'
+            
+            
+        }else{
+            
+            hidVar = ''
+            starVar = 'star_border'
         
-                //outlined version
-                starVar = 'star_border';
-         
-            }
-            writeHTML(childKey, imgName, imgDesc, imgCounter, counter, starVar);
-            
-            //Then increase the count
-            counter++; 
+        }
+     
+
+        console.log(hidVar);
+        //write HTML to page with newly assigned vars as args
+        writeHTML(hidVar, childKey, imgName, imgDesc, imgCounter, counter, starVar);
+        
+        //Then increase the count
+        counter++; 
 
         });
       
@@ -119,11 +145,11 @@ $(document).ready(function(){
     
     */
 
-    function writeHTML(cKey,imgN, imgD, imgC, count, starVar){
+    function writeHTML(hVar, cKey, imgN, imgD, imgC, count, starVar){
         //write the HTML
-        $('#target').append('<div class="card horizontal cardtainer" id="cardtainer'+ cKey +'"></div>')
+        $('#target').append('<div class="card ' + hVar + ' horizontal cardtainer" id="cardtainer'+ cKey +'"></div>')
 
-        $('#cardtainer' + cKey).append('<div class="card-image"><img src="icon' + imgCounter + '.png" class="icon" id="'+ imgC +'"></div>');
+        $('#cardtainer' + cKey).append('<div class="card-image"><img src="icon' + imgC + '.png" class="icon" id="'+ imgC +'"></div>');
 
         $('#cardtainer' + cKey).append('<div class="card-stacked"><div class="card-content" id="content' + cKey + '"><span>'+ count +'.0</span> : <span>'+ imgN + '</span><hr><p>' + imgD + '</p></div>');
 
@@ -358,12 +384,12 @@ $(document).ready(function(){
     //display only starred posts
     $('#dispStar').click(function(){
 
-        console.log('only stars');
         //repopulate the list with favorites at the top
-        var starsRef = firebase.database().ref('batman/').orderByChild('star');
-        starsRef.once('value').then(function(snap){
+        firebase.database().ref('batman/').orderByChild('star')
+        
+            .once('value').then(function(snap){
 
-            parseData(snap, 'stars');
+                parseData(snap, 'stars');
 
         })
 
